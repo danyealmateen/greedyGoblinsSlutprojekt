@@ -1,0 +1,2 @@
+# greedyGoblinsSlutprojekt
+Slutprojekt i versionshantering
