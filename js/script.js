@@ -20,4 +20,101 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(app);
+const database = getDatabase();
+
+
+
+
+
+
+
+
+
+
+// skriva
+function writeUserData(message) {
+    let adressRef= ref(database, "Eleonora/barn1" );
+    set(adressRef, {
+        message: message,
+        username: "EL",
+        lista:[888,2,3,4],
+    });
+}
+
+writeUserData( "SUPP DOG!!!");
+
+
+
+
+
+
+
+
+
+
+
+// läsa en specifik onValue direkt + när den ändrar value
+const urlRef = ref(database, "Eleonora/barn1");
+onValue(urlRef, (snapshot) => {
+    const data = snapshot.val();
+    console.log(data.lista);
+    document.body.innerHTML = data.lista[1];
+});
+
+
+
+
+
+
+
+
+
+const urlRootRef = ref(database, "/Eleonora");
+//läsa childs i root.
+console.warn("LOOP and children!!")
+onValue(
+    urlRootRef,
+    (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+            const childKey = childSnapshot.key;
+            const childData = childSnapshot.val();
+            console.log(childKey);
+            console.log(childData.message);
+        });
+    }/* ,
+    {
+        onlyOnce: true,  // engång
+    } */
+);
+
+
+
+
+
+
+//radera stuff.
+const deleteRef = ref(database, "/filip/username");
+remove(deleteRef).then(() => {
+    console.log("location removed");
+});
+
+
+
+
+
+
+
+
+// kolla om det supportas i olika webb läsare
+if (typeof(Storage) !== "undefined") {
+    // läsa från user pref
+    console.log( localStorage.getItem("name"))
+    console.log( localStorage.getItem("lastLoggin"))
+
+    //skriva i user pref
+    //localStorage.setItem("name", "Alrik");
+   // localStorage.setItem("lastLoggin","today!!");
+}
+
+
 
